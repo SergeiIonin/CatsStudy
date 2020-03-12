@@ -21,8 +21,8 @@ object SubstractableInstances {
 
   implicit val weatherSubstractable: Substractable[Weather] = new Substractable[Weather] {
     override def +(w1: Weather, w2: Weather): Weather = Weather(Substractable.+(w1.temp, w2.temp),
-      Substractable.+(w1.humidity, w2.humidity),
       Substractable.+(w1.wind, w2.wind),
+      Substractable.+(w1.humidity, w2.humidity),
       Substractable.+(w1.sky, w2.sky))
 
     override def -(w1: Weather, w2: Weather): Weather = Weather(Substractable.-(w1.temp, w2.temp),
@@ -45,12 +45,12 @@ object Substractable {
 
   object SubstractableSyntax {
     implicit class SubstractableOps[T](t: T) {
-      implicit def +(implicit s: Substractable[T]) = {
-        s.+(t1, t2)
+      implicit def +(w: T)(implicit s: Substractable[T]) = {
+        s.+(t, w)
       }
 
-      implicit def print(implicit p: Printable[A]) = {
-        println(p.format(a))
+      implicit def -(w: T)(implicit s: Substractable[T]) = {
+        s.-(t, w)
       }
     }
   }
